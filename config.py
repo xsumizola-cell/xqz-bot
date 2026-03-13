@@ -1,33 +1,43 @@
-# ================================================
-# XQZ TRADING BOT — CONFIG
-# ================================================
-# PENTING: Ganti TELEGRAM_TOKEN dengan token baru Anda
-# Jangan pernah share file ini ke publik
+import os
 
-TELEGRAM_TOKEN   = "8646798354:AAHAvTT2fKeeeDiDzBldy6FyOYD0s8UKkew"
-CHAT_ID          = "1675630605"
+TELEGRAM_TOKEN    = os.environ.get("TELEGRAM_TOKEN", "")
+CHAT_ID           = os.environ.get("CHAT_ID", "1675630605")
+TV_CHART_ID       = "jwwgzT2J"
+TV_SNAPSHOT_URL   = f"https://www.tradingview.com/x/{TV_CHART_ID}/"
+WEBHOOK_PORT      = int(os.environ.get("PORT", 8080))
+WEBHOOK_SECRET    = "xqz_webhook_secret_2026"
+BRIEFING_HOUR_WIB = 7
+TIMEZONE          = "Asia/Jakarta"
+SYMBOL            = "BTC/USDT"
+OB_DIST_FIRE      = 0.5
+OB_DIST_WATCH     = 1.5
+QUANT_FIRE        = 9
+QUANT_WATCH       = 7
+NEWS_FIRE_HOURS   = 4
+NEWS_WATCH_HOURS  = 24
+```
 
-# TradingView chart snapshot base URL
-TV_CHART_ID      = "jwwgzT2J"
-TV_SNAPSHOT_URL  = f"https://www.tradingview.com/x/{TV_CHART_ID}/"
+Commit changes.
 
-# Webhook server
-WEBHOOK_PORT     = 8080
-WEBHOOK_SECRET   = "xqz_webhook_secret_2026"
+---
 
-# Briefing jadwal (WIB / UTC+7)
-BRIEFING_HOUR_WIB = 7    # 07:00 WIB setiap hari
+**STEP 2 — Update `Procfile` di GitHub**
 
-# Timezone
-TIMEZONE = "Asia/Jakarta"
+Klik `Procfile` → edit → hapus semua → paste ini:
+```
+web: gunicorn main:app --bind 0.0.0.0:$PORT --workers 1 --threads 2
+```
 
-# Alert thresholds
-OB_DIST_FIRE     = 0.5   # % Dist untuk FIRE ALERT
-OB_DIST_WATCH    = 1.5   # % Dist untuk WATCH ALERT
-QUANT_FIRE       = 9     # Score >= 9 = FIRE
-QUANT_WATCH      = 7     # Score >= 7 = WATCH
-NEWS_FIRE_HOURS  = 4     # Jam sebelum news = FIRE
-NEWS_WATCH_HOURS = 24    # Jam sebelum news = WATCH
+Commit changes.
 
-# Symbol
-SYMBOL = "BTC/USDT"
+---
+
+**STEP 3 — Update `requirements.txt`**
+
+Klik `requirements.txt` → edit → pastikan isinya:
+```
+flask==3.0.0
+requests==2.31.0
+schedule==1.2.1
+pytz==2024.1
+gunicorn==21.2.0
